@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:warcraft.wiki.gg)"
+      "WebFetch(domain:warcraft.wiki.gg)",
+      "Bash(gh api:*)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "WebFetch(domain:www.wowinterface.com)"
     ]
   }
 }

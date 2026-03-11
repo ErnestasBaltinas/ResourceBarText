@@ -1,33 +1,13 @@
 # ResourceBarText
 
-Because staring at a colored bar and *guessing* your mana is so 2004.
+Just shows numbers on your Personal Resource Display bars.
 
-ResourceBarText overlays actual numbers on your Personal Resource Display bars — the ones Blizzard left naked.
+## Bars
 
-## What it shows
-
-Works on bar-type resources only. Pip and icon resources (Combo Points, Runes, Holy Power, etc.) have their own Blizzard UI and are not affected.
-
-| Resource | Display |
+| Bar | Display |
 |---|---|
-| Health | % |
-| Mana | % |
-| Energy | raw |
-| Rage | raw |
-| Runic Power | raw |
-| Focus | raw |
-| Fury | raw |
-| Pain | raw |
-| Insanity | raw |
-| Maelstrom | raw |
+| Health | `85%` |
+| Mana | `85%` |
+| Energy / Rage / Focus / Fury / Pain / Insanity / Maelstrom / Runic Power | `85` |
 
-## Install
-
-Drop the `ResourceBarText` folder into:
-```
-World of Warcraft/_retail_/Interface/AddOns/
-```
-
-## Author
-
-drmlol
+> Secondary resources (Combo Points, Holy Power, Runes, etc.) are handled by Blizzard's own UI and are not affected.
