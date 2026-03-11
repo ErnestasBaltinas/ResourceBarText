@@ -1,9 +1,9 @@
 ## Interface: 120000
-## Title: |cffff8000Resource|r|cffffffffBarText|r
+## Title: |cffffffffResourceBarText|r
 ## Notes: Displays text on resource bars
 ## Author: drmlol
 ## Version: 1.0.0
-## IconTexture: Interface\\Icons\\inv12_apextalent_warrior_rampagingberserker2
+## IconTexture: 6033345
 ## SavedVariables: ResourceBarTextDB
 
 ResourceBarText.lua
