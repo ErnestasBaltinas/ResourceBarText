@@ -21,7 +21,8 @@ end
 
 local resourceLabel    = CreateBarLabel(PersonalResourceDisplayFrame.PowerBar, "ResourceLabel", LABEL_PADDING_RAW)
 local resourcePctLabel = CreateBarLabel(PersonalResourceDisplayFrame.PowerBar, "ResourcePctLabel")
-local hpLabel          = CreateBarLabel(PersonalResourceDisplayFrame.HealthBarsContainer.healthBar, "HPLabel", LABEL_PADDING_RAW)
+local hpLabel          = CreateBarLabel(PersonalResourceDisplayFrame.HealthBarsContainer.healthBar, "HPLabel",
+    LABEL_PADDING_RAW)
 local hpPctLabel       = CreateBarLabel(PersonalResourceDisplayFrame.HealthBarsContainer.healthBar, "HPPctLabel")
 
 resourcePctLabel:SetText("%")
