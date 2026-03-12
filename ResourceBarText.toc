@@ -3,7 +3,7 @@
 ## Notes: Displays text on resource bars
 ## Author: drmlol
 ## Version: 1.0.0
-## IconTexture: 6033345
+## IconTexture: Interface\AddOns\ResourceBarText\ResourceBarText.blp
 ## SavedVariables: ResourceBarTextDB
 
 ResourceBarText.lua
