@@ -1,0 +1,13 @@
+package-as: ResourceBarText
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
+
+ignore:
+  - .claude
+  - .git
+  - .gitignore
+  - .vscode
+  - CLAUDE.md
+  - scripts
