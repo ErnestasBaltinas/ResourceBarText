@@ -1,3 +1,9 @@
+## ResourceBarText release 3.0.0
+
+### Features
+
+- Death Knight runes now show a countdown timer while recharging, toggleable from the settings panel (`/rbt`)
+
 ## ResourceBarText release 2.0.2
 
 ### Fix

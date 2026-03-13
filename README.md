@@ -14,12 +14,12 @@ Mana is shown as a percentage because raw mana values can be in the millions and
 
 Open the settings panel with `/rbt` or via Interface → AddOns → ResourceBarText.
 
-- **Enable/disable** HP text and resource text independently
+- **Enable/disable** HP text, resource text, and Death Knight rune text independently
 - **Align** each label to the left, center, or right of its bar
 
 ## Notes
 
-- Secondary resources (Combo Points, Holy Power, Runes, Soul Shards, etc.) are managed by Blizzard's own UI and are intentionally not modified.
+- Secondary resources (Combo Points, Holy Power, Soul Shards, etc.) are managed by Blizzard's own UI and are intentionally not modified. Death Knight runes are an exception — each rune icon displays an integer second countdown while on cooldown.
 - Labels automatically hide if you disable the Personal Resource Display in your Interface settings.
 - Druid shapeshifting is handled — resource labels update correctly on form change.
 - Specialization changes are handled — resource label updates to the correct power type on spec switch.

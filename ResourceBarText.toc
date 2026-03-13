@@ -2,7 +2,7 @@
 ## Title: |cffffffffResourceBarText|r
 ## Notes: Displays text on resource bars
 ## Author: drmlol
-## Version: 2.0.2
+## Version: 3.0.0
 ## IconTexture: Interface\AddOns\ResourceBarText\ResourceBarText.blp
 ## SavedVariables: ResourceBarTextDB
 ## AddonCompartmentFunc: ResourceBarText_OpenOptions

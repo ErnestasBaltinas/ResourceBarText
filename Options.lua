@@ -80,6 +80,16 @@ function RBT.Options.RegisterOptionsPanel()
         return resourceEnabledSetting:GetValue()
     end)
 
+    local dkRuneEnabledSetting = Settings.RegisterAddOnSetting(
+        category, "RBT_DKRuneEnabled", DB.GetDKRuneEnabledKey(),
+        DB.GetTable(), Settings.VarType.Boolean, "Enable Death Knight Rune Text", true
+    )
+    dkRuneEnabledSetting:SetValueChangedCallback(function(_, value)
+        RBT.Core.RefreshSecondaryResourceLabelState()
+    end)
+    Settings.CreateCheckbox(category, dkRuneEnabledSetting,
+        "Enable or disable the rune cooldown text on Death Knight rune icons.")
+
     Settings.RegisterAddOnCategory(category)
 end
 

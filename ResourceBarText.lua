@@ -278,7 +278,7 @@ end
 
 function RBT.Core.RefreshSecondaryResourceLabelState()
     if IsDeathKnight() then
-        if IsPersonalResourceEnabled() then
+        if IsPersonalResourceEnabled() and DB.IsDKRuneEnabled() then
             RegisterRuneTracking()
             ShowRuneLabels()
         else

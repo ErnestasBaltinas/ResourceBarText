@@ -13,11 +13,13 @@ local DB_KEY_RESOURCE_ALIGNMENT   = "resourceAlignment"
 
 local DB_KEY_HP_ENABLED           = "hpEnabled"
 local DB_KEY_RESOURCE_ENABLED     = "resourceEnabled"
+local DB_KEY_DK_RUNE_ENABLED      = "dkRuneEnabled"
 
 function DB.GetHPEnabledKey()         return DB_KEY_HP_ENABLED         end
 function DB.GetHPAlignmentKey()       return DB_KEY_HP_ALIGNMENT       end
 function DB.GetResourceEnabledKey()   return DB_KEY_RESOURCE_ENABLED   end
 function DB.GetResourceAlignmentKey() return DB_KEY_RESOURCE_ALIGNMENT end
+function DB.GetDKRuneEnabledKey()     return DB_KEY_DK_RUNE_ENABLED    end
 
 -- ============================================================================
 -- Saved variables
@@ -38,6 +40,9 @@ function DB.InitDB()
     end
     if ResourceBarTextDB[DB_KEY_RESOURCE_ENABLED] == nil then
         ResourceBarTextDB[DB_KEY_RESOURCE_ENABLED] = true
+    end
+    if ResourceBarTextDB[DB_KEY_DK_RUNE_ENABLED] == nil then
+        ResourceBarTextDB[DB_KEY_DK_RUNE_ENABLED] = true
     end
 end
 
@@ -83,4 +88,12 @@ end
 
 function DB.SetResourceEnabled(enabled)
     ResourceBarTextDB[DB_KEY_RESOURCE_ENABLED] = enabled
+end
+
+function DB.IsDKRuneEnabled()
+    return ResourceBarTextDB[DB_KEY_DK_RUNE_ENABLED] == true
+end
+
+function DB.SetDKRuneEnabled(enabled)
+    ResourceBarTextDB[DB_KEY_DK_RUNE_ENABLED] = enabled
 end
