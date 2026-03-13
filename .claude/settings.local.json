@@ -5,7 +5,18 @@
       "Bash(gh api:*)",
       "WebFetch(domain:github.com)",
       "WebSearch",
-      "WebFetch(domain:www.wowinterface.com)"
+      "WebFetch(domain:www.wowinterface.com)",
+      "WebFetch(domain:wowpedia.fandom.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl -s --max-time 60 \"https://raw.githubusercontent.com/Gethe/wow-ui-source/live/Interface/AddOns/Blizzard_Settings_Shared/Blizzard_Category.lua\" 2>&1)",
+      "Bash(curl -s --max-time 60 \"https://raw.githubusercontent.com/Gethe/wow-ui-source/live/Interface/AddOns/Blizzard_Settings_Shared/Blizzard_SettingsList.lua\" 2>&1)",
+      "Bash(curl -s --max-time 60 \"https://raw.githubusercontent.com/Gethe/wow-ui-source/live/Interface/AddOns/Blizzard_Settings_Shared/Blizzard_Registration.lua\" 2>&1)",
+      "Bash(curl -s --max-time 60 \"https://raw.githubusercontent.com/Gethe/wow-ui-source/live/Interface/AddOns/Blizzard_Settings_Shared/Blizzard_Settings.lua\" 2>&1)",
+      "Bash(curl -s --max-time 60 \"https://raw.githubusercontent.com/Gethe/wow-ui-source/live/Interface/AddOns/Blizzard_Settings_Shared/Blizzard_SettingsLayouts.lua\" 2>&1)",
+      "Bash(curl -s --max-time 60 \"https://raw.githubusercontent.com/Gethe/wow-ui-source/live/Interface/AddOns/Blizzard_Settings_Shared/Blizzard_SettingsInbound.lua\" 2>&1)",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:townlong-yak.com)"
     ]
   }
 }
