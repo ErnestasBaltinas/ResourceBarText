@@ -23,3 +23,5 @@ Open the settings panel with `/rbt` or via Interface → AddOns → ResourceBarT
 - Labels automatically hide if you disable the Personal Resource Display in your Interface settings.
 - Druid shapeshifting is handled — resource labels update correctly on form change.
 - Specialization changes are handled — resource label updates to the correct power type on spec switch.
+
+--
