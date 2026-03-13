@@ -1,10 +1,15 @@
+## ResourceBarText release 2.0.1
+
+### Fix
+
+- Resource % symbol padding fix
+
 ## ResourceBarText release 2.0.0
 
 ### Features
 
 - HP and resource text alignment (left, center, right) is now configurable via the in-game settings panel (`/rbt`)
 - HP text and resource text can each be independently enabled or disabled from the settings panel
-
 
 ## ResourceBarText release 1.0.0
 
