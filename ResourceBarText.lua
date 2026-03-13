@@ -176,6 +176,29 @@ function RBT.Core.RefreshResourceLabelState()
 end
 
 -- ============================================================================
+-- CVar tracking
+-- ============================================================================
+
+local function NotifyPersonalResourceDisabled()
+    print(MSG_DISPLAY_DISABLED)
+end
+
+local cvarFrame = CreateFrame("Frame")
+cvarFrame:SetScript("OnEvent", function(self, event, cvarName)
+    if cvarName == CVAR_PERSONAL_RESOURCE then
+        if not IsPersonalResourceEnabled() then
+            NotifyPersonalResourceDisabled()
+        end
+        RBT.Core.RefreshHPLabelState()
+        RBT.Core.RefreshResourceLabelState()
+    end
+end)
+
+local function RegisterCVarTracking()
+    cvarFrame:RegisterEvent("CVAR_UPDATE")
+end
+
+-- ============================================================================
 -- Initialization
 -- ============================================================================
 
@@ -188,6 +211,7 @@ initFrame:SetScript("OnEvent", function(self, event, isInitialLogin, isReloading
         RBT.Options.RegisterOptionsPanel()
         PrepareHPLabels()
         PrepareResourceLabels()
+        RegisterCVarTracking()
     end
     RBT.Core.RefreshHPLabelState()
     RBT.Core.RefreshResourceLabelState()
@@ -197,24 +221,4 @@ local specFrame = CreateFrame("Frame")
 specFrame:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 specFrame:SetScript("OnEvent", function(self, event)
     RBT.Core.RefreshResourceLabelState()
-end)
-
--- ============================================================================
--- CVar tracking
--- ============================================================================
-
-local function NotifyPersonalResourceDisabled()
-    print(MSG_DISPLAY_DISABLED)
-end
-
-local cvarFrame = CreateFrame("Frame")
-cvarFrame:RegisterEvent("CVAR_UPDATE")
-cvarFrame:SetScript("OnEvent", function(self, event, cvarName)
-    if cvarName == CVAR_PERSONAL_RESOURCE then
-        if not IsPersonalResourceEnabled() then
-            NotifyPersonalResourceDisabled()
-        end
-        RBT.Core.RefreshHPLabelState()
-        RBT.Core.RefreshResourceLabelState()
-    end
 end)

@@ -10,6 +10,7 @@
   - Function names must be specific and self-describing. Vague names like `EnableTracking`/`DisableTracking` are not acceptable — name exactly what the function does (e.g. `RegisterHPTracking`/`UnregisterHPTracking`).
   - Side effects (e.g. print statements) must not be mixed into unrelated functions. Extract them into a dedicated function (e.g. `NotifyPersonalResourceDisabled()`).
 - **Separation of Concerns** — keep unrelated logic apart; don't mix setup, events, and updates in the same block.
+- No forward declarations (`local foo` before its definition) — reorder code so dependencies are defined before their call sites instead.
 - No single-line `if/then/end` blocks — always expand to multiple lines.
 
 ## Reference Resources
@@ -43,8 +44,8 @@ Sections must appear in this order:
 -- Shared utilities        (CreateBarLabel, PositionLabelPair, Refresh*LabelPosition)
 -- HP                      (all HP concerns, top to bottom)
 -- Resource                (all Resource concerns, top to bottom)
--- Initialization          (initFrame, specFrame)
 -- CVar tracking           (NotifyPersonalResourceDisabled, cvarFrame)
+-- Initialization          (initFrame, specFrame)
 ```
 
 Within each domain block (HP / Resource), functions appear in this order:
