@@ -53,7 +53,7 @@ Within each domain block (HP / Resource), functions appear in this order:
 ## Frame Design
 
 - Use separate frames per concern. No frame handles unrelated events.
-- `initFrame` — `PLAYER_ENTERING_WORLD` only. Runs DB init, options registration, label creation, and initial state refresh.
+- `initFrame` — `PLAYER_ENTERING_WORLD` only. Runs DB init, options registration, label creation, and initial state refresh. `PLAYER_ENTERING_WORLD` fires on every loading screen (zone transfers included), so one-time setup (DB init, options registration, `Prepare*`) is guarded by the event's `isInitialLogin` / `isReloadingUi` arguments — never by an external flag. State refresh (`Refresh*LabelState`) runs unconditionally on every firing.
 - `specFrame` — `PLAYER_SPECIALIZATION_CHANGED` only. Calls `RefreshResourceLabelState` (spec affects resource power type, not HP).
 - `hpFrame` — `UNIT_HEALTH` only (registered/unregistered dynamically).
 - `resourceFrame` — `UNIT_POWER_UPDATE`, `UNIT_POWER_FREQUENT`, and optionally `UPDATE_SHAPESHIFT_FORM` for Druids (registered/unregistered dynamically).

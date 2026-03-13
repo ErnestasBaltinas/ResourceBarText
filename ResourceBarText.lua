@@ -181,11 +181,14 @@ end
 
 local initFrame = CreateFrame("Frame")
 initFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-initFrame:SetScript("OnEvent", function(self, event)
-    DB.InitDB()
-    RBT.Options.RegisterOptionsPanel()
-    PrepareHPLabels()
-    PrepareResourceLabels()
+initFrame:SetScript("OnEvent", function(self, event, isInitialLogin, isReloadingUi)
+    -- Only create labels once; zone transfers fire this event too but must not recreate FontStrings
+    if isInitialLogin or isReloadingUi then
+        DB.InitDB()
+        RBT.Options.RegisterOptionsPanel()
+        PrepareHPLabels()
+        PrepareResourceLabels()
+    end
     RBT.Core.RefreshHPLabelState()
     RBT.Core.RefreshResourceLabelState()
 end)

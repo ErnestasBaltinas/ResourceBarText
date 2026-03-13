@@ -1,3 +1,9 @@
+## ResourceBarText release 2.0.2
+
+### Fix
+
+- Fix ghost labels appearing on bars after changing zones
+
 ## ResourceBarText release 2.0.1
 
 ### Fix
