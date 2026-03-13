@@ -68,14 +68,12 @@ local function UpdateHealthLabel()
 end
 
 local hpFrame = CreateFrame("Frame")
-hpFrame:SetScript("OnEvent", function(self, event, unit)
-    if unit == "player" then
-        UpdateHealthLabel()
-    end
+hpFrame:SetScript("OnEvent", function(self, event)
+    UpdateHealthLabel()
 end)
 
 local function RegisterHPTracking()
-    hpFrame:RegisterEvent("UNIT_HEALTH")
+    hpFrame:RegisterUnitEvent("UNIT_HEALTH", "player")
 end
 
 local function UnregisterHPTracking()
@@ -131,10 +129,8 @@ local function UpdateResourceLabel()
 end
 
 local resourceFrame = CreateFrame("Frame")
-resourceFrame:SetScript("OnEvent", function(self, event, unit)
-    if event == "UPDATE_SHAPESHIFT_FORM" or unit == "player" then
-        UpdateResourceLabel()
-    end
+resourceFrame:SetScript("OnEvent", function(self, event)
+    UpdateResourceLabel()
 end)
 
 local function SetupClassEvents()
@@ -145,8 +141,8 @@ local function SetupClassEvents()
 end
 
 local function RegisterResourceTracking()
-    resourceFrame:RegisterEvent("UNIT_POWER_UPDATE")
-    resourceFrame:RegisterEvent("UNIT_POWER_FREQUENT")
+    resourceFrame:RegisterUnitEvent("UNIT_POWER_UPDATE", "player")
+    resourceFrame:RegisterUnitEvent("UNIT_POWER_FREQUENT", "player")
     SetupClassEvents()
 end
 
