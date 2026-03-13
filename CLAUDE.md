@@ -40,10 +40,11 @@ Sections must appear in this order:
 
 ```
 -- Constants
--- Shared predicate        (IsPersonalResourceEnabled — referenced by both HP and Resource)
+-- Shared predicate        (IsPersonalResourceEnabled, IsDruid, IsDeathKnight)
 -- Shared utilities        (CreateBarLabel, PositionLabelPair, Refresh*LabelPosition)
 -- HP                      (all HP concerns, top to bottom)
 -- Resource                (all Resource concerns, top to bottom)
+-- Rune                    (all DK rune cooldown label concerns, top to bottom)
 -- CVar tracking           (NotifyPersonalResourceDisabled, cvarFrame)
 -- Initialization          (initFrame, specFrame)
 ```
@@ -55,10 +56,11 @@ Within each domain block (HP / Resource), functions appear in this order:
 
 - Use separate frames per concern. No frame handles unrelated events.
 - `initFrame` — `PLAYER_ENTERING_WORLD` only. Runs DB init, options registration, label creation, and initial state refresh. `PLAYER_ENTERING_WORLD` fires on every loading screen (zone transfers included), so one-time setup (DB init, options registration, `Prepare*`) is guarded by the event's `isInitialLogin` / `isReloadingUi` arguments — never by an external flag. State refresh (`Refresh*LabelState`) runs unconditionally on every firing.
-- `specFrame` — `PLAYER_SPECIALIZATION_CHANGED` only. Calls `RefreshResourceLabelState` (spec affects resource power type, not HP).
+- `specFrame` — `PLAYER_SPECIALIZATION_CHANGED` only. Calls `RefreshResourceLabelState` and `RefreshSecondaryResourceLabelState`.
 - `hpFrame` — `UNIT_HEALTH` only (registered/unregistered dynamically).
 - `resourceFrame` — `UNIT_POWER_UPDATE`, `UNIT_POWER_FREQUENT`, and optionally `UPDATE_SHAPESHIFT_FORM` for Druids (registered/unregistered dynamically).
-- `cvarFrame` — `CVAR_UPDATE` only. Fires notification and refreshes both label states on personal resource toggle.
+- `runeCooldownFrame` — `RUNE_POWER_UPDATE` only (registered/unregistered dynamically, DK only).
+- `cvarFrame` — `CVAR_UPDATE` only. Fires notification and refreshes all label states on personal resource toggle.
 
 ## Naming Conventions
 
@@ -73,6 +75,21 @@ Within each domain block (HP / Resource), functions appear in this order:
 - Each frame owns only the events it directly needs.
 - Shared logic lives in plain local functions that frames call into — no duplication across handlers.
 - Never manipulate anchor points at runtime (`SetPoint`/`ClearAllPoints`) inside frequent event handlers (UNIT_HEALTH, UNIT_POWER_UPDATE, etc.). `SetPoint`/`ClearAllPoints` is acceptable in options callbacks (user-triggered, once).
+
+## Verified WoW API Notes
+
+Facts confirmed against warcraft.wiki.gg and Blizzard source — do not re-guess these.
+
+### Death Knight Runes
+
+- Rune frame path: `prdClassFrame` is a **global** set by Blizzard's `FrameUtil.CreateFrame`. It is NOT nested under `PersonalResourceDisplayFrame`. Individual rune icons: `prdClassFrame.Runes[1..6]`.
+- `GetRuneCooldown(runeIndex)` — global function, no namespace. Returns `(start, duration, runeReady)`. Use `start + duration - GetTime()` for remaining seconds.
+- `GetRuneCount(runeIndex)` — global function. Returns `1` if rune is available, `0` if on cooldown.
+- `RUNE_POWER_UPDATE` — regular event, use `RegisterEvent`. NOT a unit event (`RegisterUnitEvent` will silently fail). Fires on rune spend and rune recovery. Args: `runeIndex, added`.
+
+### General
+
+- `UnitClassBase("player")` — returns `(classFilename, classId)`. First return is the uppercase string token (e.g. `"DEATHKNIGHT"`, `"DRUID"`), second is a numeric ID. Always use the first return for class string comparisons.
 
 ## Label Display Conventions
 

@@ -8,6 +8,10 @@ local DB                     = RBT.DB
 
 local CVAR_PERSONAL_RESOURCE = "nameplateShowSelf"
 local MSG_DISPLAY_DISABLED   = "|cffffffffResourceBarText|r: |cffffff00Personal Resource Display is turned off.|r"
+local CLASS_DRUID            = "DRUID"
+local CLASS_DEATHKNIGHT      = "DEATHKNIGHT"
+local RUNE_COUNT             = 6
+local RUNE_TICKER_INTERVAL   = 1.0
 
 -- ============================================================================
 -- Shared predicate
@@ -15,6 +19,16 @@ local MSG_DISPLAY_DISABLED   = "|cffffffffResourceBarText|r: |cffffff00Personal 
 
 local function IsPersonalResourceEnabled()
     return GetCVar(CVAR_PERSONAL_RESOURCE) == "1"
+end
+
+local function IsDruid()
+    local classFilename = UnitClassBase("player")
+    return classFilename == CLASS_DRUID
+end
+
+local function IsDeathKnight()
+    local classFilename = UnitClassBase("player")
+    return classFilename == CLASS_DEATHKNIGHT
 end
 
 -- ============================================================================
@@ -134,8 +148,7 @@ resourceFrame:SetScript("OnEvent", function(self, event)
 end)
 
 local function SetupClassEvents()
-    local _, classID = UnitClassBase("player")
-    if classID == "DRUID" then
+    if IsDruid() then
         resourceFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
     end
 end
@@ -172,6 +185,110 @@ function RBT.Core.RefreshResourceLabelState()
 end
 
 -- ============================================================================
+-- Rune
+-- ============================================================================
+
+local runeCooldownLabels = {}
+local runeTickerHandle
+
+local function PrepareRuneLabels()
+    for i = 1, RUNE_COUNT do
+        local lbl = CreateBarLabel(prdClassFrame.Runes[i], "RuneCooldownLabel" .. i)
+        lbl:SetPoint("CENTER", prdClassFrame.Runes[i], "CENTER", 0, 0)
+        runeCooldownLabels[i] = lbl
+    end
+end
+
+local function UpdateRuneLabels()
+    for i = 1, RUNE_COUNT do
+        local start, duration, runeReady = GetRuneCooldown(i)
+        if runeReady then
+            runeCooldownLabels[i]:Hide()
+        else
+            local remaining = start + duration - GetTime()
+            runeCooldownLabels[i]:SetText(math.ceil(remaining))
+            runeCooldownLabels[i]:Show()
+        end
+    end
+end
+
+local function AnyRuneOnCooldown()
+    for i = 1, RUNE_COUNT do
+        if GetRuneCount(i) == 0 then
+            return true
+        end
+    end
+    return false
+end
+
+local function StopRuneCooldownTicker()
+    if runeTickerHandle then
+        runeTickerHandle:Cancel()
+        runeTickerHandle = nil
+    end
+end
+
+local function StartRuneCooldownTicker()
+    StopRuneCooldownTicker()
+    runeTickerHandle = C_Timer.NewTicker(RUNE_TICKER_INTERVAL, function()
+        UpdateRuneLabels()
+        if not AnyRuneOnCooldown() then
+            StopRuneCooldownTicker()
+        end
+    end)
+end
+
+local runeCooldownFrame = CreateFrame("Frame")
+runeCooldownFrame:SetScript("OnEvent", function()
+    UpdateRuneLabels()
+    if AnyRuneOnCooldown() then
+        StartRuneCooldownTicker()
+    else
+        StopRuneCooldownTicker()
+    end
+end)
+
+local function RegisterRuneTracking()
+    runeCooldownFrame:RegisterEvent("RUNE_POWER_UPDATE")
+end
+
+local function UnregisterRuneTracking()
+    runeCooldownFrame:UnregisterAllEvents()
+end
+
+local function ShowRuneLabels()
+    UpdateRuneLabels()
+    if AnyRuneOnCooldown() then
+        StartRuneCooldownTicker()
+    end
+end
+
+local function HideRuneLabels()
+    for i = 1, RUNE_COUNT do
+        runeCooldownLabels[i]:Hide()
+    end
+    StopRuneCooldownTicker()
+end
+
+local function PrepareSecondaryResourceLabels()
+    if IsDeathKnight() then
+        PrepareRuneLabels()
+    end
+end
+
+function RBT.Core.RefreshSecondaryResourceLabelState()
+    if IsDeathKnight() then
+        if IsPersonalResourceEnabled() then
+            RegisterRuneTracking()
+            ShowRuneLabels()
+        else
+            UnregisterRuneTracking()
+            HideRuneLabels()
+        end
+    end
+end
+
+-- ============================================================================
 -- CVar tracking
 -- ============================================================================
 
@@ -187,6 +304,7 @@ cvarFrame:SetScript("OnEvent", function(self, event, cvarName)
         end
         RBT.Core.RefreshHPLabelState()
         RBT.Core.RefreshResourceLabelState()
+        RBT.Core.RefreshSecondaryResourceLabelState()
     end
 end)
 
@@ -207,14 +325,17 @@ initFrame:SetScript("OnEvent", function(self, event, isInitialLogin, isReloading
         RBT.Options.RegisterOptionsPanel()
         PrepareHPLabels()
         PrepareResourceLabels()
+        PrepareSecondaryResourceLabels()
         RegisterCVarTracking()
     end
     RBT.Core.RefreshHPLabelState()
     RBT.Core.RefreshResourceLabelState()
+    RBT.Core.RefreshSecondaryResourceLabelState()
 end)
 
 local specFrame = CreateFrame("Frame")
 specFrame:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 specFrame:SetScript("OnEvent", function(self, event)
     RBT.Core.RefreshResourceLabelState()
+    RBT.Core.RefreshSecondaryResourceLabelState()
 end)

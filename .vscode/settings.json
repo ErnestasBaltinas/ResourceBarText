@@ -18,6 +18,7 @@
 		"CurveConstants",
 		"PersonalResourceDisplayFrame",
 		"SlashCmdList",
-		"Settings"
+		"Settings",
+		"prdClassFrame"
 	]
 }
