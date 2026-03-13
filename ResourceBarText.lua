@@ -38,8 +38,8 @@ local function PositionLabelPair(bar, valueLabel, pctLabel, alignment)
         valueLabel:SetPoint("CENTER", bar, "CENTER", 0, 0)
         pctLabel:SetPoint("LEFT", valueLabel, "RIGHT", 0, 0)
     else -- RIGHT
-        pctLabel:SetPoint("RIGHT", bar, "RIGHT", 0, 0)
-        valueLabel:SetPoint("RIGHT", pctLabel, "LEFT", 0, 0)
+        valueLabel:SetPoint("RIGHT", bar, "RIGHT", -14, 0)
+        pctLabel:SetPoint("LEFT", valueLabel, "RIGHT", 0, 0)
     end
 end
 
